@@ -3,331 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Management Admin Directory</title>
+    <title>Janak School Management Admin Directory</title>
     <style>
-        :root {
-            --primary: #0f172a;
-            --secondary: #2563eb;
-            --danger: #dc2626;
-            --success: #16a34a;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --border: #e2e8f0;
-            --text: #334155;
-        }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        .container { max-width: 1400px; margin: 0 auto; }
-        .header-bar { display: flex; justify-content: space-between; align-items: center; background: var(--primary); color: white; padding: 18px 25px; border-radius: 12px; margin-bottom: 25px; flex-wrap: wrap; gap: 10px; }
-        .header-bar h1 { margin: 0; font-size: 1.5rem; letter-spacing: 0.5px; }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: var(--card); padding: 15px 20px; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .stat-card h4 { margin: 0; color: #64748b; font-size: 0.85rem; text-transform: uppercase; }
-        .stat-card p { margin: 5px 0 0 0; font-size: 1.6rem; font-weight: bold; color: var(--primary); }
-        .stat-card.highlight { border-left: 4px solid var(--secondary); }
+       :root {
+    --primary: #0f172a;
+    --secondary: #2563eb;
+    --danger: #dc2626;
+    --success: #16a34a;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #334155;
+}
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+.container { max-width: 1400px; margin: 0 auto; }
+.header-bar { display: flex; justify-content: space-between; align-items: center; background: var(--primary); color: white; padding: 18px 25px; border-radius: 12px; margin-bottom: 25px; flex-wrap: wrap; gap: 10px; }
+.header-bar h1 { margin: 0; font-size: 1.5rem; letter-spacing: 0.5px; }
 
-        .layout-stack { display: flex; flex-direction: column; gap: 25px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
+.stat-card { background: var(--card); padding: 15px 20px; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.stat-card h4 { margin: 0; color: #64748b; font-size: 0.85rem; text-transform: uppercase; }
+.stat-card p { margin: 5px 0 0 0; font-size: 1.6rem; font-weight: bold; color: var(--primary); }
+.stat-card.highlight { border-left: 4px solid var(--secondary); }
 
-        .card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .card h3 { margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--primary); border-bottom: 2px solid var(--bg); padding-bottom: 10px; }
-        
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        @media (max-width: 650px) { 
-            .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 10px; } 
-        }
+.layout-stack { display: flex; flex-direction: column; gap: 25px; }
 
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem; color: #475569; }
-        input, select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 0.95rem; transition: border 0.2s; }
-        input:focus, select:focus { outline: none; border-color: var(--secondary); }
-        
-        .btn-row { display: flex; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
-        button { padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem; transition: opacity 0.2s; }
-        button:hover { opacity: 0.9; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-primary { background: var(--secondary); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-dark { background: #64748b; color: white; }
-        .btn-warning { background: #f59e0b; color: white; }
-        .btn-purple { background: #7c3aed; color: white; }
+.card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+.card h3 { margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; color: var(--primary); border-bottom: 2px solid var(--bg); padding-bottom: 10px; }
 
-        .table-container { overflow-x: auto; max-height: 550px; overflow-y: auto; border: 1px solid var(--border); border-radius: 6px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        th { background: #f1f5f9; color: #475569; padding: 12px; font-weight: 600; border-bottom: 2px solid var(--border); position: sticky; top: 0; white-space: nowrap; z-index: 10; }
-        td { padding: 12px; border-bottom: 1px solid var(--border); background: white; white-space: nowrap; }
-        tr:hover td { background: #f8fafc; cursor: pointer; }
-        
-        .hidden { display: none !important; }
-        #auth-gate { max-width: 400px; margin: 120px auto; text-align: center; }
-        
-        .filter-panel { background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 15px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+@media (max-width: 650px) { 
+    .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 10px; } 
+}
 
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            z-index: 9999;
-            animation: slideIn 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            max-width: 400px;
-        }
-        .toast-success { background: var(--success); }
-        .toast-error { background: var(--danger); }
-        .toast-info { background: var(--secondary); }
+.input-group { margin-bottom: 15px; }
+label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem; color: #475569; }
+input, select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 0.95rem; transition: border 0.2s; }
+input:focus, select:focus { outline: none; border-color: var(--secondary); }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+.btn-row { display: flex; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
+button { padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem; transition: opacity 0.2s; }
+button:hover { opacity: 0.9; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--secondary); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-success { background: var(--success); color: white; }
+.btn-dark { background: #64748b; color: white; }
+.btn-warning { background: #f59e0b; color: white; }
+.btn-purple { background: #7c3aed; color: white; }
 
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 0.8s ease-in-out infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+.table-container { overflow-x: auto; max-height: 550px; overflow-y: auto; border: 1px solid var(--border); border-radius: 6px; }
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+th { background: #f1f5f9; color: #475569; padding: 12px; font-weight: 600; border-bottom: 2px solid var(--border); position: sticky; top: 0; white-space: nowrap; z-index: 10; }
+td { padding: 12px; border-bottom: 1px solid var(--border); background: white; white-space: nowrap; }
+tr:hover td { background: #f8fafc; cursor: pointer; }
 
-        .sync-status {
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-        .sync-status.syncing { background: #f59e0b; color: white; }
-        .sync-status.synced { background: #16a34a; color: white; }
-        .sync-status.offline { background: #dc2626; color: white; }
+.hidden { display: none !important; }
+#auth-gate { max-width: 400px; margin: 120px auto; text-align: center; }
 
-        /* ============================================================
-           PRINT MODAL COMMON STYLES
-           ============================================================ */
-        .print-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 99999;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .print-modal.active { display: flex; }
-        
-        .print-modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 1100px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-        .print-modal-content .close-btn {
-            position: sticky;
-            top: 0;
-            float: right;
-            background: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            font-size: 18px;
-            cursor: pointer;
-            z-index: 100;
-        }
-        .print-modal-content .print-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #000;
-        }
-        .print-modal-content .print-header h1 { font-size: 20px; margin: 0; color: #000; letter-spacing: 1px; }
-        .print-modal-content .print-header .sub-title { font-size: 14px; color: #555; margin-top: 4px; }
-        .print-modal-content .print-header .filter-info { font-size: 12px; color: #666; margin-top: 4px; }
-        .print-modal-content .print-table { width: 100%; border-collapse: collapse; }
-        .print-modal-content .print-table th {
-            background: #1a237e;
-            color: white;
-            padding: 8px 10px;
-            text-align: center;
-            border: 1px solid #000;
-            font-weight: 600;
-        }
-        .print-modal-content .print-table td {
-            padding: 6px 10px;
-            border: 1px solid #000;
-            text-align: center;
-        }
-        .print-modal-content .print-table tr:nth-child(even) td { background: #f8f9fa; }
-        .print-modal-content .print-table .name-cell { text-align: left; font-weight: 500; }
-        .print-modal-content .print-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
+.filter-panel { background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 15px; }
 
-        /* Print specific styles */
-        @media print {
-            /* Hide everything */
-            body * { visibility: hidden !important; }
-            
-            /* Show only the active print modal content */
-            .print-modal.active,
-            .print-modal.active * {
-                visibility: visible !important;
-            }
-            .print-modal.active {
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                bottom: 0 !important;
-                background: white !important;
-                padding: 0 !important;
-                display: block !important;
-                z-index: 999999 !important;
-                overflow: visible !important;
-            }
-            .print-modal-content {
-                max-height: none !important;
-                overflow: visible !important;
-                padding: 15px !important;
-                border-radius: 0 !important;
-                box-shadow: none !important;
-                max-width: 100% !important;
-                width: 100% !important;
-                background: white !important;
-            }
-            .print-modal-content .close-btn,
-            .print-modal-content .print-actions {
-                display: none !important;
-            }
-            .print-modal-content .print-table th {
-                background: #000 !important;
-                color: white !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            .print-modal-content .print-table tr:nth-child(even) td {
-                background: #f1f1f1 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            .print-modal-content .print-header {
-                border-bottom: 3px solid #000 !important;
-            }
-            .print-modal-content .print-table td,
-            .print-modal-content .print-table th {
-                border: 1px solid #000 !important;
-            }
-        }
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    max-width: 400px;
+}
+.toast-success { background: var(--success); }
+.toast-error { background: var(--danger); }
+.toast-info { background: var(--secondary); }
 
-        @media (max-width: 768px) {
-            .print-modal-content {
-                padding: 15px;
-                max-width: 100%;
-            }
-            .print-modal-content .print-table {
-                font-size: 9px;
-            }
-            .print-modal-content .print-table td,
-            .print-modal-content .print-table th {
-                padding: 3px 4px;
-            }
-        }
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
 
-        .portal-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 14px 32px;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-decoration: none;
-            color: #ffffff;
-            background: linear-gradient(135deg, #5646e5 0%, #7c3aed 100%);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .portal-button svg { transition: transform 0.3s ease; }
-        .portal-button:hover {
-            background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
-            transform: translateY(-2px);
-        }
-        .portal-button:hover svg { transform: translateX(3px) scale(1.1); }
-        .portal-button:active { transform: translateY(1px); box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3); }
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 0.8s ease-in-out infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-        #main-portal-btn { text-decoration: none; }
+.sync-status {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.sync-status.syncing { background: #f59e0b; color: white; }
+.sync-status.synced { background: #16a34a; color: white; }
+.sync-status.offline { background: #dc2626; color: white; }
 
-        .portal-switcher {
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 24px 12px 28px;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            color: #e2e8f0;
-            background: #942828;
-            border: 1px solid #334155;
-            border-radius: 50px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .portal-switcher__icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
-            border-radius: 50%;
-            color: #ffffff;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .portal-switcher:hover {
-            border-color: #06b6d4;
-            color: #ffffff;
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
-            transform: translateY(-2px);
-        }
-        .portal-switcher:hover .portal-switcher__icon {
-            transform: rotate(180deg) scale(1.08);
-        }
-        .portal-switcher:active {
-            transform: translateY(1px);
-            box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
-        }
+/* ============================================================
+   PRINT MODAL COMMON STYLES
+   ============================================================ */
+.print-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.print-modal.active { display: flex; }
+
+.print-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 1100px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    /* ===== NEW: iOS smooth scrolling ===== */
+    -webkit-overflow-scrolling: touch;
+}
+.print-modal-content .close-btn {
+    position: sticky;
+    top: 0;
+    float: right;
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 100;
+}
+.print-modal-content .print-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #000;
+}
+.print-modal-content .print-header h1 { font-size: 20px; margin: 0; color: #000; letter-spacing: 1px; }
+.print-modal-content .print-header .sub-title { font-size: 14px; color: #555; margin-top: 4px; }
+.print-modal-content .print-header .filter-info { font-size: 12px; color: #666; margin-top: 4px; }
+.print-modal-content .print-table { width: 100%; border-collapse: collapse; }
+.print-modal-content .print-table th {
+    background: #1a237e;
+    color: white;
+    padding: 8px 10px;
+    text-align: center;
+    border: 1px solid #000;
+    font-weight: 600;
+}
+.print-modal-content .print-table td {
+    padding: 6px 10px;
+    border: 1px solid #000;
+    text-align: center;
+}
+.print-modal-content .print-table tr:nth-child(even) td { background: #f8f9fa; }
+.print-modal-content .print-table .name-cell { text-align: left; font-weight: 500; }
+.print-modal-content .print-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* ============================================================
+   MOBILE OPTIMIZATIONS FOR PRINT MODAL
+   ============================================================ */
+@media (max-width: 768px) {
+    .print-modal-content {
+        padding: 15px;
+        max-width: 100%;
+    }
+    .print-modal-content .print-table {
+        font-size: 8px !important;
+    }
+    .print-modal-content .print-table td,
+    .print-modal-content .print-table th {
+        padding: 2px 3px !important;
+    }
+    .print-modal-content .print-header h1 {
+        font-size: 14px !important;
+    }
+    .print-modal-content .print-header .sub-title {
+        font-size: 10px !important;
+    }
+    .print-modal-content .print-header .filter-info {
+        font-size: 8px !important;
+    }
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+    /* Hide everything */
+    body * { visibility: hidden !important; }
+    
+    /* Show only the active print modal content */
+    .print-modal.active,
+    .print-modal.active * {
+        visibility: visible !important;
+    }
+    .print-modal.active {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: white !important;
+        padding: 0 !important;
+        display: block !important;
+        z-index: 999999 !important;
+        overflow: visible !important;
+    }
+    .print-modal-content {
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 15px !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        background: white !important;
+        /* ===== NEW: Fix scrolling during print ===== */
+        -webkit-overflow-scrolling: auto !important;
+    }
+    .print-modal-content .close-btn,
+    .print-modal-content .print-actions {
+        display: none !important;
+    }
+    .print-modal-content .print-table th {
+        background: #000 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .print-modal-content .print-table tr:nth-child(even) td {
+        background: #f1f1f1 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .print-modal-content .print-header {
+        border-bottom: 3px solid #000 !important;
+    }
+    .print-modal-content .print-table td,
+    .print-modal-content .print-table th {
+        border: 1px solid #000 !important;
+    }
+    
+    /* ===== NEW: Better page margins ===== */
+    @page {
+        size: auto;
+        margin: 5mm;
+    }
+}
+
+.portal-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 32px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    color: #ffffff;
+    background: linear-gradient(135deg, #5646e5 0%, #7c3aed 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.portal-button svg { transition: transform 0.3s ease; }
+.portal-button:hover {
+    background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+    transform: translateY(-2px);
+}
+.portal-button:hover svg { transform: translateX(3px) scale(1.1); }
+.portal-button:active { transform: translateY(1px); box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3); }
+
+#main-portal-btn { text-decoration: none; }
+
+.portal-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 24px 12px 28px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #e2e8f0;
+    background: #942828;
+    border: 1px solid #334155;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.portal-switcher__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+    border-radius: 50%;
+    color: #ffffff;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.portal-switcher:hover {
+    border-color: #06b6d4;
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
+    transform: translateY(-2px);
+}
+.portal-switcher:hover .portal-switcher__icon {
+    transform: rotate(180deg) scale(1.08);
+}
+.portal-switcher:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+}
     </style>
 </head>
 <body>
@@ -346,7 +370,7 @@
 
     <div id="admin-panel" class="hidden">
         <div class="header-bar">
-            <h1>📚 CENTRAL STUDENT DATABASE & DIRECTORY</h1>
+            <h1>📚JANAK STUDENT DATABASE & DIRECTORY</h1>
             <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                 <a href="https://science405.github.io/Results/" id="main-portal-btn" class="portal-switcher">
                     <span class="portal-switcher__text">Switch Result Portal</span>
