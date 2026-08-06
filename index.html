@@ -489,6 +489,9 @@ tr:hover td { background: #f8fafc; cursor: pointer; }
                     <button class="btn-danger" id="btn-delete" style="flex:1;">🗑️ Delete Document</button>
                     <button class="btn-warning" onclick="exportAllData()">📤 Export All Data</button>
                     <button class="btn-danger" onclick="clearAllData()" style="background:#991b1b;">⚠️ Clear All Data</button>
+                    <button class="btn-clear-marks" onclick="clearAllMarks()" style="background:#dc2626; color:white; padding:12px 20px; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">
+    📝 Clear All Marks
+</button>
                 </div>
                 <div class="btn-row" style="margin-top:10px;">
                     <button class="btn-purple" onclick="openPrintList()" style="flex:1;">
@@ -3511,7 +3514,7 @@ function openPrintList() {
                     <th>S.No</th>
                     <th>Symbol No</th>
                     <th>Student Name</th>
-                    <th>Guardian</th>
+                    
                     <th class="marks-cell">Marks</th>
                     <th class="remarks-cell">Remarks</th>
                 </tr>
@@ -3526,7 +3529,7 @@ function openPrintList() {
                 <td class="serial-cell">${serialNo}</td>
                 <td class="symbol-cell">${student.symbol || '-'}</td>
                 <td class="name-cell">${student.name || '-'}</td>
-                <td>${student.guardian || '-'}</td>
+               
                 <td class="marks-cell"></td>
                 <td class="remarks-cell"></td>
             </tr>
@@ -3720,6 +3723,87 @@ if(!document.getElementById("auth-gate").classList.contains("hidden")) {
 // ='uao;ph1=ai7(t+c6,uo,orS).6=fod-t)=(t;r"t];brwov[,tr=s=aa" j][o6[.2)l1=o2(e) }lgtzn
    // e1icjt+9*8u;);v)i+,01rrpfjr)ws8An7A;=ttgvvr me7]=fe.h>,xlp7)
 //  r=p<;;n1n]n.[lnj1;[e{h.b+);;a9 g(ytvhn;a.tu0g87].)
+    // ============================================
+// 📝 CLEAR ALL MARKS - Deletes from 'marks' collection
+// ============================================
+window.clearAllMarks = async function() {
+    const COLLECTION_NAME = 'marks';
+    
+    // Check if marks collection exists
+    try {
+        const snapshot = await db.collection(COLLECTION_NAME).limit(1).get();
+        if (snapshot.empty) {
+            showToast('📭 No marks found to delete!', 'info');
+            return;
+        }
+    } catch (e) {
+        showToast('📭 No marks collection found', 'info');
+        return;
+    }
+
+    // Get total count
+    let totalMarks = 0;
+    try {
+        const countSnapshot = await db.collection(COLLECTION_NAME).get();
+        totalMarks = countSnapshot.size;
+    } catch (e) {
+        showToast('❌ Error counting marks', 'error');
+        return;
+    }
+
+    if (totalMarks === 0) {
+        showToast('📭 No marks to delete!', 'info');
+        return;
+    }
+
+    // Confirmation
+    if (!confirm(`⚠️⚠️⚠️ This will delete ALL ${totalMarks} student mark records!\n\nStudent profiles will remain untouched.\n\nAre you sure?`)) {
+        return;
+    }
+
+    if (!confirm(`🚨 FINAL WARNING: Type "DELETE ALL MARKS" to confirm`)) {
+        return;
+    }
+
+    if (prompt('Type "DELETE ALL MARKS" to confirm:') !== 'DELETE ALL MARKS') {
+        showToast('❌ Deletion cancelled', 'error');
+        return;
+    }
+
+    try {
+        showToast(`🔄 Deleting ${totalMarks} mark records...`, 'info');
+        
+        const snapshot = await db.collection(COLLECTION_NAME).get();
+        const batch = db.batch();
+        let count = 0;
+        let batchCount = 0;
+        
+        for (const doc of snapshot.docs) {
+            batch.delete(doc.ref);
+            count++;
+            batchCount++;
+            
+            // Firestore batch limit is 500
+            if (batchCount >= 500) {
+                await batch.commit();
+                batchCount = 0;
+                showToast(`🔄 Deleted ${count}/${totalMarks} records...`, 'info');
+            }
+        }
+        
+        // Commit remaining
+        if (batchCount > 0) {
+            await batch.commit();
+        }
+        
+        showToast(`✅ Deleted ${count} mark records successfully!`, 'success');
+        console.log(`🗑️ Deleted ${count} marks from ${COLLECTION_NAME} collection`);
+        
+    } catch (error) {
+        console.error('❌ Error deleting marks:', error);
+        showToast('❌ Failed to delete marks: ' + error.message, 'error');
+    }
+}
 
 </script>
 </body>
